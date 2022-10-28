@@ -1,20 +1,302 @@
 #Q1. Write a program to find all pairs of an integer array whose sum is equal to a given number?
+def find(array, len, summ):
+    print("Pairs whose sum is : ", summ)
+    for i in range(len):
+        for j in range(i, len):
+            if (array[i] + array[j]) == summ:
+                print(array[i], array[j])
 
 
-Q2. Write a program to reverse an array in place? In place means you cannot create a new array. You have to update the original array.
+array = [5, 2, 3, 4, 1, 6, 7]
 
-Q3. Write a program to check if two strings are a rotation of each other?
+# Take sum as input from user
+summ = 7
 
-Q4. Write a program to print the first non-repeated character from a string?
+# print array
+print("Array= ", array)
 
-Q5. Read about the Tower of Hanoi algorithm. Write a program to implement it.
+# call function find
+find(array, len(array), summ)
 
-Q6. Read about infix, prefix, and postfix expressions. Write a program to convert postfix to prefix expression.
+#Q2. Write a program to reverse an array in place? In place means you cannot create a new array. You have to update the original array.
+def reverseList(A, start, end):
+    while start < end:
+        A[start], A[end] = A[end], A[start]
+        start += 1
+        end -= 1
+ 
+A = [1, 2, 3, 4, 5, 6]
+print(A)
+reverseList(A, 0, 5)
+print("Reversed list is")
+print(A)
 
-Q7. Write a program to convert prefix expression to infix expression.
+#Q3. Write a program to check if two strings are a rotation of each other?
+def checkString(a, b, indexFound, Size):
+    for i in range(Size):
+ 
+        # check whether the character is equal or not
+        if(a[i] != b[(indexFound + i) % Size]):
+            return False
+ 
+        # %Size keeps (indexFound+i) in bounds,
+        # since it ensures it's value is always less than Size
+    return True
+ 
+ 
+# driver code
+a = "abcd"
+b = "cdab"
+ 
+if(len(a) != len(b)):
+    print("b is not a rotation on a")
+ 
+else:
+ 
+    indexes = []  # store occurrences of the first character of a
+    Size = len(a)
+    firstChar = a[0]
+    for i in range(Size):
+        if(b[i] == firstChar):
+            indexes.append(i)
+ 
+    isRotation = False
+ 
+    # check if the strings are rotation of each other
+    # for every occurrence of firstChar in b
+    for idx in indexes:
+ 
+        isRotation = checkString(a, b, idx, Size)
+ 
+        if(isRotation):
+            break
+ 
+    if(isRotation):
+        print("Strings are rotations of each other")
+    else:
+        print("Strings are not rotations of each other")
 
-Q8. Write a program to check if all the brackets are closed in a given code snippet.
+#Q4. Write a program to print the first non-repeated character from a string?
+str1 = "geeksforgeeks"
+ind = -1
+fnc = ""
+for i in str1:
+    if str1.count(i) == 1:
+        fnc += i
+        break
+    else:
+        ind += 1
+if ind == 1:
+    print("Either all characters are repeating or string is empty")
+else:
+    print("First non-repeating character is", fnc)
 
-Q9. Write a program to reverse a stack.
+#Q5. Read about the Tower of Hanoi algorithm. Write a program to implement it.
+def Tower_Of_Hanoi(n, from_rod, to_rod, aux_rod):
+    if n == 0:
+        return
+    Tower_Of_Hanoi(n-1, from_rod, aux_rod, to_rod)
+    print("Move disk", n, "from rod", from_rod, "to rod", to_rod)
+    Tower_Of_Hanoi(n-1, aux_rod, to_rod, from_rod)
 
-Q10. Write a program to find the smallest number using a stack.
+N = 3
+ 
+# A, C, B are the name of rods
+Tower_Of_Hanoi(N, 'A', 'C', 'B')
+
+#Q6. Read about infix, prefix, and postfix expressions. Write a program to convert postfix to prefix expression.
+def is_Operator(x):
+ 
+    if x == "+":
+        return True
+ 
+    if x == "-":
+        return True
+ 
+    if x == "/":
+        return True
+ 
+    if x == "*":
+        return True
+ 
+    return False
+ 
+# Converting postfix to Prefix expression
+def post_To_Pre(post_exp):
+ 
+    s = []
+ 
+    # length of expression
+    length = len(post_exp)
+ 
+    # reading from right to left
+    for i in range(length):
+ 
+        # check if symbol is operator
+        if (is_Operator(post_exp[i])):
+ 
+            # pop two operands from stack
+            op1 = s[-1]
+            s.pop()
+            op2 = s[-1]
+            s.pop()
+ 
+            # concat the operands and operator
+            temp = post_exp[i] + op2 + op1
+ 
+            # Push string temp back to stack
+            s.append(temp)
+ 
+        # if symbol is an operand
+        else:
+ 
+            # push the operand to the stack
+            s.append(post_exp[i])
+ 
+    
+    ans = ""
+    for i in s:
+        ans += i
+    return ans
+
+if __name__ == "__main__":
+ 
+    post_exp = "AB+CD-"
+     
+    # Function call
+    print("Prefix : ", post_To_Pre(post_exp))
+ 
+#Q7. Write a program to convert prefix expression to infix expression.
+def prefix_To_Infix(prefix):
+    stack = []
+     
+    # read prefix in reverse order
+    i = len(prefix) - 1
+    while i >= 0:
+        if not is_Operator(prefix[i]):
+             
+            # symbol is operand
+            stack.append(prefix[i])
+            i -= 1
+        else:
+           
+            # symbol is operator
+            str1 = "(" + stack.pop() + prefix[i] + stack.pop() + ")"
+            stack.append(str)
+            i -= 1
+     
+    return stack.pop()
+ 
+def is_Operator(c):
+    if c == "*" or c == "+" or c == "-" or c == "/" or c == "^" or c == "(" or c == ")":
+        return True
+    else:
+        return False
+ 
+if __name__=="__main__":
+    str1 = "*-A/BC-/AKL"
+    print(prefix_To_Infix(str1))
+
+#Q8. Write a program to check if all the brackets are closed in a given code snippet.
+def are_Brackets_Balanced(expr):
+    stack = []
+ 
+    # Traversing the Expression
+    for char in expr:
+        if char in ["(", "{", "["]:
+ 
+            # Push the element in the stack
+            stack.append(char)
+        else:
+ 
+            # If current character is not opening
+            # bracket, then it must be closing.
+            # So stack cannot be empty at this point.
+            if not stack:
+                return False
+            current_char = stack.pop()
+            if current_char == '(':
+                if char != ")":
+                    return False
+            if current_char == '{':
+                if char != "}":
+                    return False
+            if current_char == '[':
+                if char != "]":
+                    return False
+ 
+    # Check Empty Stack
+    if stack:
+        return False
+    return True
+ 
+if __name__ == "__main__":
+    expr = "{()}[]"
+ 
+    # Function call
+    if are_Brackets_Balanced(expr):
+        print("Balanced")
+    else:
+        print("Not Balanced")
+
+#Q9. Write a program to reverse a stack.
+class Stack:
+    # create empty list
+    def __init__(self):
+        self.Elements = []
+         
+    def push(self, value):
+        self.Elements.append(value)
+
+    def pop(self):
+        return self.Elements.pop()
+ 
+    def empty(self):
+        return self.Elements == []
+
+    def show(self):
+        for value in reversed(self.Elements):
+            print(value)
+ 
+# Insert_Bottom() insert value at bottom
+def BottomInsert(s, value):
+   
+    # check if the stack is empty or not
+    if s.empty():
+         
+        # if stack is empty then call push() method.
+        s.push(value)
+         
+    # if stack is not empty then execute else block
+    else:
+        popped = s.pop()
+        BottomInsert(s, value)
+        s.push(popped)
+ 
+# Reverse() reverse the stack
+def Reverse(s):
+    if s.empty():
+        pass
+    else:
+        popped = s.pop()
+        Reverse(s)
+        BottomInsert(s, popped)
+ 
+ 
+# create object of stack class
+stk = Stack()
+ 
+stk.push(1)
+stk.push(2)
+stk.push(3)
+stk.push(4)
+stk.push(5)
+ 
+print("Original Stack")
+stk.show()
+ 
+print("\nStack after Reversing")
+Reverse(stk)
+stk.show()
+
+#Q10. Write a program to find the smallest number using a stack.
